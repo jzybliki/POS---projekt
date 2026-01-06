@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.pos.controller.PosController"
+      spacing="20" style="-fx-padding: 20; -fx-background-color: #f4f4f4;"
+      prefHeight="600" prefWidth="1000">
+
+    <VBox spacing="10" prefWidth="250" style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+        <Label text="Lista Produktów:" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="productListArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS"/>
+
+        <Label text="Zasady Rabatów:" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="discountInfoArea" editable="false" wrapText="true" prefHeight="100"/>
+    </VBox>
+
+    <VBox spacing="15" HBox.hgrow="ALWAYS" alignment="TOP_CENTER" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+
+        <Label text="System POS" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+        <HBox spacing="10">
+            <TextField fx:id="barcodeField" promptText="Kod produktu..." HBox.hgrow="ALWAYS" style="-fx-font-size: 14px;"/>
+            <Button text="SKANUJ PRODUKT" onAction="#handleScan"
+                    style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+
+        <TableView fx:id="cartTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colName" text="Produkt" prefWidth="150"/>
+                <TableColumn fx:id="colQty" text="Ilość" prefWidth="60"/>
+                <TableColumn fx:id="colPrice" text="Cena" prefWidth="80"/>
+                <TableColumn fx:id="colTotal" text="Suma" prefWidth="80"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+
+        <Label fx:id="totalLabel" text="SUMA: 0.00 PLN"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 10; -fx-background-color: #eee; -fx-background-radius: 5;"/>
+
+        <VBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="Metoda płatności:" style="-fx-font-weight: bold;"/>
+            <HBox spacing="15">
+                <RadioButton fx:id="rbCash" text="Gotówka" selected="true">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="paymentGroup"/>
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="rbCard" text="Karta" toggleGroup="$paymentGroup"/>
+            </HBox>
+        </VBox>
+
+        <Button text="ZAPŁAĆ I DRUKUJ PARAGON" onAction="#handleCheckout"
+                maxWidth="Infinity"
+                style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 15; -fx-font-weight: bold;"/>
+    </VBox>
+
+    <VBox spacing="10" prefWidth="250">
+
+        <VBox spacing="5" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+            <Label text="Ostatni Paragon:" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="receiptArea" editable="false" style="-fx-font-family: 'Courier New';" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+            <Label text="Zwroty:" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="returnField" promptText="Kod produktu do zwrotu..."/>
+            <Button text="DOKONAJ ZWROTU" onAction="#handleReturn" maxWidth="Infinity"
+                    style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </VBox>
+
+    </VBox>
+
+</HBox>
