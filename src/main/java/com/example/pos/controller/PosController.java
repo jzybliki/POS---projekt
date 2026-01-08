@@ -57,3 +57,55 @@ public class PosController {
         // Wypisz info o rabatach
         discountInfoArea.setText("RABATY:\n- Zakupy powyżej 50 zł: 10% zniżki\n- Zakupy poniżej 50 zł: Brak zniżki");
     }
+
+    @FXML
+    public void handleScan() {
+        if (posService == null) return;
+        String barcode = barcodeField.getText();
+        ReceiptItem item = posService.scanProduct(barcode);
+
+        if (item != null) {
+            refreshView();
+            barcodeField.clear();
+            barcodeField.requestFocus(); // Utrzymaj kursor w polu
+        } else {
+            showAlert("Nie znaleziono produktu!");
+        }
+    }
+
+    @FXML
+    public void handleCheckout() {
+        if (posService == null || posService.getCart().isEmpty()) {
+            showAlert("Koszyk jest pusty!");
+            return;
+        }
+
+        // Pobierz wybraną metodę płatności
+        String method = rbCash.isSelected() ? "GOTÓWKA" : "KARTA";
+
+        String receipt = posService.checkout(method);
+        receiptArea.setText(receipt);
+        refreshView();
+    }
+
+    @FXML
+    public void handleReturn() {
+        String barcode = returnField.getText();
+        if (barcode.isEmpty()) return;
+
+        String result = posService.returnProduct(barcode);
+        showAlert(result); // Pokaż wynik zwrotu w okienku
+        returnField.clear();
+    }
+
+    private void refreshView() {
+        cartTable.getItems().setAll(posService.getCart());
+        double sum = posService.getCart().stream().mapToDouble(ReceiptItem::getTotal).sum();
+        totalLabel.setText(String.format("SUMA: %.2f PLN", sum));
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
+        alert.showAndWait();
+    }
+}
