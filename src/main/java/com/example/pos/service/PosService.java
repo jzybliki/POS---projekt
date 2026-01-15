@@ -42,7 +42,6 @@ public class PosService {
         return null;
     }
 
-    // NOWA LOGIKA: Zwrot towaru
     public String returnProduct(String barcode) {
         Optional<Product> productOpt = repository.findByBarcode(barcode);
         if (productOpt.isPresent()) {
@@ -53,7 +52,6 @@ public class PosService {
 
     public List<ReceiptItem> getCart() { return cart; }
 
-    // ZMIANA: Dodano argument paymentMethod
     public String checkout(String paymentMethod) {
         if (cart.isEmpty()) return "Koszyk jest pusty!";
 

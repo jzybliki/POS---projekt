@@ -3,7 +3,6 @@ package com.example.pos;
 import com.example.pos.model.ReceiptItem;
 import com.example.pos.repository.ProductRepository;
 import com.example.pos.service.PosService;
-import com.example.pos.strategy.VipDiscountStrategy;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

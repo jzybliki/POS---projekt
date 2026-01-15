@@ -5,7 +5,6 @@ import com.example.pos.controller.PosController;
 import com.example.pos.repository.ProductRepository;
 import com.example.pos.service.PosService; // <--- To jest kluczowe! Wskazuje na folder service
 import com.example.pos.strategy.DiscountStrategy;
-import com.example.pos.strategy.VipDiscountStrategy;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
