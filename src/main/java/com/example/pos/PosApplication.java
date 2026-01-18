@@ -4,8 +4,7 @@ package com.example.pos;
 import com.example.pos.controller.PosController;
 import com.example.pos.repository.ProductRepository;
 import com.example.pos.service.PosService; // <--- To jest kluczowe! Wskazuje na folder service
-import com.example.pos.strategy.DiscountStrategy;
-
+import com.example.pos.strategy.*; // Import wszystkich strategii
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,12 +20,16 @@ public class PosApplication extends Application {
         // Tworzymy bazę danych
         ProductRepository repository = new ProductRepository();
 
-        // Tworzymy strategię rabatową
-        DiscountStrategy strategy = new VipDiscountStrategy();
+        // Domyślna strategia na start (musi być identyczna jak "Brak dodatkowego" w kontrolerze)
+        // Łańcuch: VIP -> 3za2 -> Koniec (NoDiscount)
+        DiscountStrategy defaultStrategy = new VipDiscountStrategy(
+                new ThreeForTwoStrategy(
+                        new NoDiscountStrategy()
+                )
+        );
 
-        // Tworzymy Serwis i dajemy mu bazę oraz strategię
-        // Teraz Java wie, że chodzi o PosService z folderu 'service'
-        PosService service = new PosService(repository, strategy);
+        // Tworzymy Serwis
+        PosService service = new PosService(repository, defaultStrategy);
 
         // --- 2. Ładowanie Widoku FXML ---
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pos_view.fxml"));
@@ -39,8 +42,8 @@ public class PosApplication extends Application {
         controller.setPosService(service);
 
         // --- 4. Wyświetlenie Okna ---
-        primaryStage.setTitle("System POS (Zaliczenie)");
-        primaryStage.setScene(new Scene(root, 700, 600));
+        primaryStage.setTitle("System POS");
+        primaryStage.setScene(new Scene(root, 1100, 600));
         primaryStage.show();
     }
 
