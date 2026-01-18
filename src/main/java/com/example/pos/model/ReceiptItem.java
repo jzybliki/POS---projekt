@@ -4,7 +4,7 @@ public class ReceiptItem {
     private final Product product;
     private double quantity;
 
-    public ReceiptItem(Product product, int quantity) {
+    public ReceiptItem(Product product, double quantity) {
         this.product = product;
         this.quantity = quantity;
     }
@@ -13,7 +13,7 @@ public class ReceiptItem {
         return product.getPrice() * quantity;
     }
 
-    public void incrementQuantity(double amount) {
+    public void addQuantity(double amount) {
         this.quantity += amount;
     }
 

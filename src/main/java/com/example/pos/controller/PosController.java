@@ -17,7 +17,7 @@ public class PosController {
     @FXML private TextField quantityField;
     @FXML private TableView<ReceiptItem> cartTable;
     @FXML private TableColumn<ReceiptItem, String> colName;
-    @FXML private TableColumn<ReceiptItem, Integer> colQty;
+    @FXML private TableColumn<ReceiptItem, Double> colQty;
     @FXML private TableColumn<ReceiptItem, Double> colPrice;
     @FXML private TableColumn<ReceiptItem, Double> colTotal;
     @FXML private Label totalLabel;
